@@ -14,7 +14,16 @@ mongoose
   .then((res) => console.log("MongDB connected"))
   .catch((err) => console.log(err));
 
-app.post("/todos", async(req, res) => {
+app.get('/todos', async (req, res)=>{
+  try {
+    const getData = await todoModel.find()
+    res.status(200).json(getData)
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+app.post("/todos", async (req, res) => {
   try {
     const { todo } = req.body;
     console.log(todo);
@@ -32,7 +41,7 @@ app.post("/todos", async(req, res) => {
 
     res.status(200).json({
       message: "todo added",
-      saveTodo
+      saveTodo,
     });
   } catch (error) {
     console.log(error);
